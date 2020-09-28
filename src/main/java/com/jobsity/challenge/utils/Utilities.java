@@ -1,25 +1,25 @@
 package com.jobsity.challenge.utils;
 
-import com.jobsity.challenge.models.Play;
+import com.jobsity.challenge.models.Frame;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Utilities {
 
-    public static HashMap<String, List<Play>> parseTextFile(String filePath) {
+    public static LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) {
         String[] values;
-        HashMap<String, List<Play>> result = new HashMap<>();
+        LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
         List<String> players = new ArrayList<>();
         String lastPlayer = "";
-        List<Play> plays = new ArrayList<>();
+        List<Frame> frames = new ArrayList<>();
         int scoreCount = -1;
         int[] currentScore = new int[3];
         int score = 0;
+        int frameCount = -1;
+        boolean firstPlayer = false;
+        String firstPlayerName ="";
 
         try {
             FileInputStream fis = new FileInputStream(filePath);
@@ -30,6 +30,10 @@ public class Utilities {
                 String player = values[0];
 
                 if(!players.contains(player)){
+                    if(!firstPlayer){
+                        firstPlayerName = player;
+                        firstPlayer = true;
+                    }
                     players.add(player);
                 }
 
@@ -42,10 +46,16 @@ public class Utilities {
                 scoreCount++;
                 if (!player.equalsIgnoreCase(lastPlayer) && !lastPlayer.equalsIgnoreCase("")) {
                     //Save the last player play
-                    Play currentPlay = new Play();
-                    currentPlay.setPlayer(lastPlayer);
-                    currentPlay.setPinfalls(currentScore);
-                    plays.add(currentPlay);
+
+                    if(lastPlayer.equalsIgnoreCase(firstPlayerName)){
+                        frameCount++;
+                    }
+
+                    Frame currentFrame = new Frame();
+                    currentFrame.setPlayer(lastPlayer);
+                    currentFrame.setPinfalls(currentScore);
+                    currentFrame.setFrameNumber(frameCount);
+                    frames.add(currentFrame);
 
                     //begin new player's play
                     scoreCount = 0;
@@ -56,37 +66,40 @@ public class Utilities {
             }
 
             //Save last throw
-            Play currentPlay = new Play();
-            currentPlay.setPlayer(lastPlayer);
-            currentPlay.setPinfalls(currentScore);
-            plays.add(currentPlay);
+            Frame currentFrame = new Frame();
+            currentFrame.setPlayer(lastPlayer);
+            currentFrame.setPinfalls(currentScore);
+            currentFrame.setFrameNumber(frameCount);
+            frames.add(currentFrame);
             sc.close();     //closes the scanner
 
-            for (Play play : plays) {
-                System.out.println(play.getPlayer());
-                System.out.println(play.getPinfalls()[0] + "-" + play.getPinfalls()[1] + "-" + play.getPinfalls()[2]);
+            for (Frame frame : frames) {
+                System.out.println(frame.getPlayer());
+                System.out.println(frame.getPinfalls()[0] + "-" + frame.getPinfalls()[1] + "-" + frame.getPinfalls()[2]);
             }
 
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
-        for (Play play : plays) {
-            List<Play> newList;
+        for (Frame frame : frames) {
+            List<Frame> newList;
 
-            if(result.containsKey(play.getPlayer())){
-                newList = result.get(play.getPlayer());
+            if(result.containsKey(frame.getPlayer())){
+                newList = result.get(frame.getPlayer());
             } else {
                 newList = new ArrayList<>();
             }
 
-            newList.add(play);
-            result.put(play.getPlayer(), newList);
+            newList.add(frame);
+            result.put(frame.getPlayer(), newList);
         }
 
         for(Object key : result.keySet()){
             System.out.print(key);
             for(int k=0; k<result.get(key).size(); k++) {
+                System.out.print(" ");
+                System.out.print(result.get(key).get(k).getFrameNumber());
                 System.out.print(" ");
                 System.out.print(result.get(key).get(k).getPinfalls()[0]);
                 System.out.print(" ");
