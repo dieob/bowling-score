@@ -18,7 +18,6 @@ public class App
     public static void main( String[] args ) throws FileNotFoundException {
         Utilities util = new Utilities();
         LinkedHashMap<String, List<Frame>> gamePlays = util.parseTextFile(args[0]);
-        int frameCounter=0;
 
         while(true){
             gamePlays.forEach((player, frames)->{
@@ -28,20 +27,6 @@ public class App
                 }
             });
             break;
-        }
-
-        for(Object key : gamePlays.keySet()){
-            System.out.print(key);
-            for(int k=0; k<gamePlays.get(key).size(); k++) {
-                System.out.print(" ");
-             /*   System.out.print(gamePlays.get(key).get(k).getFrameNumber());
-                System.out.print(" ");
-                System.out.print(gamePlays.get(key).get(k).getPinfalls()[0]);
-                System.out.print(" ");*/
-                System.out.print(gamePlays.get(key).get(k).getScore());
-                System.out.print("//");
-            }
-            System.out.println(" ");
         }
     }
 }

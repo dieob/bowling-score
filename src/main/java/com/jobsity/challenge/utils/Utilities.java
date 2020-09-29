@@ -65,19 +65,7 @@ public class Utilities {
 
         result = packFrames(frames);
 
-        for(Object key : result.keySet()){
-            System.out.print(key);
-            for(int k=0; k<result.get(key).size(); k++) {
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getFrameNumber());
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[0]);
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[1]);
-                System.out.print("//");
-            }
-            System.out.println(" ");
-        }
+        Utilities.printMap(result);
 
         return result;
     }
@@ -141,26 +129,9 @@ public class Utilities {
             currentFrame.setFrameNumber(frameCount);
             frames.add(currentFrame);
 
-            for (Frame frame : frames) {
-                System.out.println(frame.getPlayer());
-                System.out.println(frame.getPinfalls()[0] + "-" + frame.getPinfalls()[1] + "-" + frame.getPinfalls()[2]);
-            }
-
         result = packFrames(frames);
 
-        for(Object key : result.keySet()){
-            System.out.print(key);
-            for(int k=0; k<result.get(key).size(); k++) {
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getFrameNumber());
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[0]);
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[1]);
-                System.out.print("//");
-            }
-            System.out.println(" ");
-        }
+        Utilities.printMap(result);
 
         return result;
     }
@@ -231,6 +202,22 @@ public class Utilities {
         }
         catch( Exception e ) {
             return false;
+        }
+    }
+
+    public static void printMap(LinkedHashMap<String, List<Frame>> result){
+        for(Object key : result.keySet()){
+            System.out.print(key);
+            for(int k=0; k<result.get(key).size(); k++) {
+                System.out.print(" ");
+                System.out.print(result.get(key).get(k).getFrameNumber());
+                System.out.print(" ");
+                System.out.print(result.get(key).get(k).getPinfalls()[0]);
+                System.out.print(" ");
+                System.out.print(result.get(key).get(k).getPinfalls()[1]);
+                System.out.print("//");
+            }
+            System.out.println(" ");
         }
     }
 }
