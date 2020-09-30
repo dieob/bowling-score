@@ -11,7 +11,8 @@ public class Utilities {
 
     public static LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) throws FileNotFoundException {
         LinkedHashMap<String, List<Frame>> result;
-        List<Line> lines = readFile(filePath);
+        List<Line> lines = parseFile(filePath);
+
         if(getNumberOfPlayers(lines)==1){
             result = handleSinglePlayer(lines);
         } else{
@@ -94,11 +95,7 @@ public class Utilities {
                     players.add(player);
                 }
 
-                if (isInteger(line.getScore())) {
-                    score = Integer.valueOf(line.getScore());
-                } else {
-                    score = 0;
-                }
+                score = getIntValue(line.getScore());
 
                 scoreCount++;
                 if (!player.equalsIgnoreCase(lastPlayer) && !lastPlayer.equalsIgnoreCase("")) {
@@ -167,11 +164,12 @@ public class Utilities {
         return result;
     }
 
-    public static List<Line> readFile(String filePath) throws FileNotFoundException {
-        FileInputStream fis = new FileInputStream(filePath);
+    public static List<Line> parseFile(String fileName) throws FileNotFoundException {
+        String executionPath = System.getProperty("user.dir");
+        FileInputStream fis = new FileInputStream(executionPath
+                +"/src/main/java/com/jobsity/challenge/files/"+fileName);
         Scanner sc = new Scanner(fis);    //file to be scanned
         String[] values;
-        List<String> players = new ArrayList<>();
         List<Line> result = new ArrayList<>();
 
         while (sc.hasNextLine()) {
@@ -191,17 +189,7 @@ public class Utilities {
             return Integer.parseInt(str);
         }
         catch( Exception e ) {
-            return 0;
-        }
-    }
-
-    public static boolean isInteger( String input ) {
-        try {
-            Integer.parseInt( input );
-            return true;
-        }
-        catch( Exception e ) {
-            return false;
+            return -1;
         }
     }
 

@@ -28,5 +28,8 @@ public class App
             });
             break;
         }
+
+        BowlingGame game =  new BowlingGameScoreBoard();
+        game.printTable(gamePlays);
     }
 }
