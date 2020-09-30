@@ -3,7 +3,7 @@ package com.jobsity.challenge.models;
 public class Line {
 
     private String name;
-    private String score;
+    private String pinfalls;
 
     public String getName() {
         return name;
@@ -13,11 +13,11 @@ public class Line {
         this.name = name;
     }
 
-    public String getScore() {
-        return score;
+    public String getPinfalls() {
+        return pinfalls;
     }
 
-    public void setScore(String score) {
-        this.score = score;
+    public void setPinfalls(String pinfalls) {
+        this.pinfalls = pinfalls;
     }
 }

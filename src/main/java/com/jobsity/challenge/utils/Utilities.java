@@ -24,31 +24,31 @@ public class Utilities {
 
     public static LinkedHashMap<String, List<Frame>> handleSinglePlayer(List<Line> lines){
         int frameCount = -1;
-        int score = 0;
-        int[] currentScore = new int[3];
+        String score = "";
+        String[] currentScore = new String[3];
         List<Frame> frames = new ArrayList<>();
         LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
         int lineCount = 0;
 
         while(lineCount<lines.size()){
             frameCount++;
-            currentScore = new int[3];
-            score = getIntValue(lines.get(lineCount).getScore());
+            currentScore = new String[3];
+            score = lines.get(lineCount).getPinfalls();
 
-            if(score == 10){
-                currentScore[0] = 10;
+            if(score.equalsIgnoreCase("10")){
+                currentScore[0] = "10";
                 if(frameCount==9){
-                    currentScore[1] = getIntValue(lines.get(lineCount+1).getScore());
-                    currentScore[2] = getIntValue(lines.get(lineCount+2).getScore());
+                    currentScore[1] = lines.get(lineCount+1).getPinfalls();
+                    currentScore[2] = lines.get(lineCount+2).getPinfalls();
                     lineCount+=2;
                 }
             } else{
                 currentScore[0]=score;
 
-                currentScore[1]=getIntValue(lines.get(lineCount+1).getScore());
+                currentScore[1]=lines.get(lineCount+1).getPinfalls();
                 if(frameCount==9){
                     if(lines.size()-lineCount==3){
-                        currentScore[2]=getIntValue(lines.get(lineCount+2).getScore());
+                        currentScore[2]=lines.get(lineCount+2).getPinfalls();
                         lineCount+=2;
                     }
                 } else {
@@ -66,8 +66,6 @@ public class Utilities {
 
         result = packFrames(frames);
 
-        Utilities.printMap(result);
-
         return result;
     }
 
@@ -78,8 +76,8 @@ public class Utilities {
         String lastPlayer = "";
         List<Frame> frames = new ArrayList<>();
         int scoreCount = -1;
-        int[] currentScore = new int[3];
-        int score = 0;
+        String[] currentScore = new String[3];
+        String score = "";
         int frameCount = -1;
         boolean firstPlayer = false;
         String firstPlayerName ="";
@@ -95,7 +93,7 @@ public class Utilities {
                     players.add(player);
                 }
 
-                score = getIntValue(line.getScore());
+                score = line.getPinfalls();
 
                 scoreCount++;
                 if (!player.equalsIgnoreCase(lastPlayer) && !lastPlayer.equalsIgnoreCase("")) {
@@ -113,7 +111,7 @@ public class Utilities {
 
                     //begin new player's play
                     scoreCount = 0;
-                    currentScore = new int[3];
+                    currentScore = new String[3];
                 }
                 currentScore[scoreCount] = score;
                 lastPlayer = player;
@@ -127,8 +125,6 @@ public class Utilities {
             frames.add(currentFrame);
 
         result = packFrames(frames);
-
-        Utilities.printMap(result);
 
         return result;
     }
@@ -176,21 +172,11 @@ public class Utilities {
             Line newLine = new Line();
             values = sc.nextLine().split("\\s+");
             newLine.setName(values[0]);
-            newLine.setScore(values[1]);
+            newLine.setPinfalls(values[1]);
             result.add(newLine);
         }
         sc.close();
         return result;
-    }
-
-    public static int getIntValue(String str){
-        try {
-            Integer.parseInt( str );
-            return Integer.parseInt(str);
-        }
-        catch( Exception e ) {
-            return -1;
-        }
     }
 
     public static void printMap(LinkedHashMap<String, List<Frame>> result){

@@ -7,7 +7,7 @@ public class Frame {
     private static final int MAX_ATTEMPTS = 2;
     private static final int MAX_FRAMES = 10;
     private String player;
-    private int[] pinfalls = new int[MAX_ATTEMPTS+1];
+    private String[] pinfalls = new String[MAX_ATTEMPTS+1];
     private int totalPinFalls;
     private int score;
     private boolean isStrike;
@@ -24,11 +24,11 @@ public class Frame {
         this.player = player;
     }
 
-    public int[] getPinfalls() {
+    public String[] getPinfalls() {
         return pinfalls;
     }
 
-    public void setPinfalls(int[] pinfalls) {
+    public void setPinfalls(String[] pinfalls) {
         this.pinfalls = pinfalls;
     }
 
@@ -41,7 +41,7 @@ public class Frame {
     }
 
     public boolean isStrike() {
-        if(this.pinfalls[0]==10){
+        if(this.pinfalls[0].equalsIgnoreCase("10")){
             return true;
         } else {
             return false;
@@ -55,7 +55,9 @@ public class Frame {
     public boolean isSpare() {
         int counter =0;
         for (int i = 0; i < pinfalls.length-1; i++) {
-            counter += pinfalls[i];
+            if(!pinfalls[i].equalsIgnoreCase("F")){
+                counter += Integer.parseInt(pinfalls[i]);
+            }
         }
         if(counter==10){
             return true;
@@ -87,7 +89,9 @@ public class Frame {
     public int getTotalPinFalls() {
         int total=0;
         for (int i = 0; i < this.pinfalls.length-1; i++) {
-            total += this.pinfalls[i];
+            if(!pinfalls[i].equalsIgnoreCase("F")){
+                total += Integer.parseInt(pinfalls[i]);
+            }
         }
         return total;
     }
@@ -95,7 +99,9 @@ public class Frame {
     public int getTotalPinfallsForLastFrame(){
         int total=0;
         for (int i = 0; i < this.pinfalls.length; i++) {
-            total += this.pinfalls[i];
+            if(!pinfalls[i].equalsIgnoreCase("F")){
+                total += Integer.parseInt(pinfalls[i]);
+            }
         }
         return total;
     }

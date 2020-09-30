@@ -39,7 +39,11 @@ public final class BowlingGameScoreBoard implements BowlingGame {
             if(frames.get(frame.getFrameNumber()+1).isStrike()){
                 //if it is the first
                 if(frame.getFrameNumber() != MAX_FRAMES-2) {
-                    result = prevScore + MAX_PINS * 2 + frames.get(frame.getFrameNumber() + 2).getPinfalls()[0];
+                    int nextFramePins = 0;
+                    if(!frames.get(frame.getFrameNumber() + 2).getPinfalls()[0].equalsIgnoreCase("F")){
+                        nextFramePins = Integer.parseInt(frames.get(frame.getFrameNumber() + 2).getPinfalls()[0]);
+                    }
+                    result = prevScore + MAX_PINS * 2 + nextFramePins;
                 } else {
                     //this means it is the penultimate frame
                     //needs to be handled in a special way
@@ -51,7 +55,11 @@ public final class BowlingGameScoreBoard implements BowlingGame {
             }
             //if it is a spare
         } else if(frame.isSpare()) {
-            result = prevScore + MAX_FRAMES + frames.get(frame.getFrameNumber()+1).getPinfalls()[0];
+            int nextFramePins = 0;
+            if(!frames.get(frame.getFrameNumber() + 1).getPinfalls()[0].equalsIgnoreCase("F")){
+                nextFramePins = Integer.parseInt(frames.get(frame.getFrameNumber() + 1).getPinfalls()[0]);
+            }
+            result = prevScore + MAX_FRAMES + nextFramePins;
         } else {
             result = prevScore + frame.getTotalPinFalls();
         }
@@ -71,14 +79,14 @@ public final class BowlingGameScoreBoard implements BowlingGame {
             scoreList.stream().forEach((frame)->{
                 String[] scores = new String[3];
                 String pinfallsFormat1st = "%3s%5s";
-                String pinfallsFormat = "%5s%4s";
+                String pinfallsFormat = "%5s%5s";
                 String tenthFrame = "%5s%n";
 
                 if(frame.isStrike()){
                     if(frame.getFrameNumber()==9){
                         scores[0] = "X";
-                        scores[1] = frame.getPinfalls()[1] == 10 ? "X" : String.valueOf(frame.getPinfalls()[1]);
-                        scores[2] = frame.getPinfalls()[2] == 10 ? "X" : String.valueOf(frame.getPinfalls()[2]);
+                        scores[1] = frame.getPinfalls()[1].equalsIgnoreCase("10") ? "X" : String.valueOf(frame.getPinfalls()[1]);
+                        scores[2] = frame.getPinfalls()[2].equalsIgnoreCase("10") ? "X" : String.valueOf(frame.getPinfalls()[2]);
                     } else {
                         scores[0] = " ";
                         scores[1] = "X";
@@ -105,7 +113,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
 
             System.out.print("Score");
             scoreList.stream().forEach((frame)->{
-                String scoreFormat1st = "%6s";
+                String scoreFormat1st = "%7s";
                 String scoreFormat = "%10s";
                 String tenthFormat = "%10s%n";
                 if(frame.getFrameNumber() == 9){
@@ -116,7 +124,14 @@ public final class BowlingGameScoreBoard implements BowlingGame {
             });
         });
     }
-}
 
-/////////////////
-/// cambiar pinfalls por string para poder guardar la F, porque -1 esta restando al resultado
+    public static int getIntValue(String str){
+        try {
+            Integer.parseInt( str );
+            return Integer.parseInt(str);
+        }
+        catch( Exception e ) {
+            return -1;
+        }
+    }
+}
