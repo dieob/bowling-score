@@ -80,7 +80,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 String[] scores = new String[3];
                 String pinfallsFormat1st = "%3s%5s";
                 String pinfallsFormat = "%5s%5s";
-                String tenthFrame = "%5s%n";
+                String tenthFrame = "%5s";
 
                 if(frame.isStrike()){
                     if(frame.getFrameNumber()==9){
@@ -106,7 +106,10 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                         scores[0].equalsIgnoreCase("-1") ? "F" : scores[0],
                         scores[1].equalsIgnoreCase("-1") ? "F" : scores[1]);
                 if(frame.getFrameNumber()==9){
-                    System.out.printf(tenthFrame, scores[2].equalsIgnoreCase("-1") ? "F" : scores[2]);
+                    if(!scores[2].equalsIgnoreCase("null")){
+                        System.out.printf(tenthFrame, scores[2]);
+                     }
+                    System.out.println();
                 }
 
             });
@@ -123,15 +126,5 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 }
             });
         });
-    }
-
-    public static int getIntValue(String str){
-        try {
-            Integer.parseInt( str );
-            return Integer.parseInt(str);
-        }
-        catch( Exception e ) {
-            return -1;
-        }
     }
 }
