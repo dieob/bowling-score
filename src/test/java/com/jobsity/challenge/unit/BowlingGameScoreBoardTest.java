@@ -1,4 +1,4 @@
-package com.jobsity.challenge;
+package com.jobsity.challenge.unit;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +14,7 @@ import java.util.stream.Stream;
 /**
  * Unit test for Bowling Score Game.
  */
-public class AppTest {
+public class BowlingGameScoreBoardTest {
 
     final int INITIAL_SCORE = 0;
 
