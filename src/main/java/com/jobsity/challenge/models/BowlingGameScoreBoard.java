@@ -28,6 +28,8 @@ public final class BowlingGameScoreBoard implements BowlingGame {
         this.frames = frames;
     }
 
+
+    /** Calculates the score of a given frame */
     @Override
     public int calculateScore(Frame frame) {
         int result = 0;
@@ -75,6 +77,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
     }
 
 
+    /** Prints the result table in the required format **/
     @Override
     public void printResultBoard(LinkedHashMap<String, List<Frame>> frames) {
         String titleFormat = "%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n";

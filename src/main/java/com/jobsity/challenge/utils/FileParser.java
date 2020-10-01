@@ -14,9 +14,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+/**
+ * This class is used to parse the file given as input
+ *
+ **/
 public class FileParser {
 
-    public LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) throws FileNotFoundException {
+    /** Method to handle the file **/
+    public LinkedHashMap<String, List<Frame>> handleFile(String filePath) throws FileNotFoundException {
         LinkedHashMap<String, List<Frame>> result;
         List<Line> lines = parseFile(filePath);
 
@@ -29,6 +34,34 @@ public class FileParser {
         return result;
     }
 
+    /** Reads the lines from the file and store them as a List **/
+    public List<Line> parseFile(String fileName) throws FileNotFoundException {
+        String executionPath = System.getProperty("user.dir");
+        FileInputStream fis = new FileInputStream(executionPath
+                +"/src/main/java/com/jobsity/challenge/files/"+fileName);
+        Scanner sc = new Scanner(fis);    //file to be scanned
+        String[] values;
+        List<Line> result = new ArrayList<>();
+
+        while (sc.hasNextLine()) {
+            Line newLine = new Line();
+            values = sc.nextLine().split("\\s+");
+
+            if(!values[1].equalsIgnoreCase("F")){
+                if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
+                    throw new BowlingException("Invalid pinfalls amount. Received: " + values[1] + ". Pinfalls should be between 0 and 10.");
+                }
+            }
+
+            newLine.setName(values[0]);
+            newLine.setPinfalls(values[1]);
+            result.add(newLine);
+        }
+        sc.close();
+        return result;
+    }
+
+    /** Creates the structure containing the frames for a game with only one player **/
     public LinkedHashMap<String, List<Frame>> handleSinglePlayer(List<Line> lines){
         int frameCount = -1;
         String score = "";
@@ -74,6 +107,7 @@ public class FileParser {
         return result;
     }
 
+    /** Creates the structure containing the frames for a game with more than one player **/
     public LinkedHashMap<String, List<Frame>> handleMultiplePlayers(List<Line> lines) {
         LinkedHashMap<String, List<Frame>> result;
         List<String> players = new ArrayList<>();
@@ -108,7 +142,7 @@ public class FileParser {
                     }
 
                     if(frameCount>9){
-                        throw new BowlingException("Maximum amount of throws per game exceeded.");
+                        throw new BowlingException("Max amount of throws per game exceeded.");
                     }
 
                     Frame currentFrame = new Frame(lastPlayer, currentScore, frameCount, 0);
@@ -131,6 +165,7 @@ public class FileParser {
         return result;
     }
 
+    /** Calculate the number of players for this game **/
     public int getNumberOfPlayers(List<Line> lines) {
         List<String> players = new ArrayList<>();
 
@@ -145,6 +180,7 @@ public class FileParser {
         return players.size();
     }
 
+    /** Packs the List of Frames with the player's name as a key, and it's frames as the value **/
     public LinkedHashMap<String, List<Frame>> packFrames(List<Frame> frames){
         LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
         for (Frame frame : frames) {
@@ -160,47 +196,5 @@ public class FileParser {
             result.put(frame.getPlayer(), newList);
         }
         return result;
-    }
-
-    public List<Line> parseFile(String fileName) throws FileNotFoundException {
-        String executionPath = System.getProperty("user.dir");
-        FileInputStream fis = new FileInputStream(executionPath
-                +"/src/main/java/com/jobsity/challenge/files/"+fileName);
-        Scanner sc = new Scanner(fis);    //file to be scanned
-        String[] values;
-        List<Line> result = new ArrayList<>();
-
-        while (sc.hasNextLine()) {
-            Line newLine = new Line();
-            values = sc.nextLine().split("\\s+");
-
-            if(!values[1].equalsIgnoreCase("F")){
-                if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
-                    throw new BowlingException("Invalid pinfalls amount. Received: " + values[1] + ". Pinfalls should be between 0 and 10.");
-                }
-            }
-
-            newLine.setName(values[0]);
-            newLine.setPinfalls(values[1]);
-            result.add(newLine);
-        }
-        sc.close();
-        return result;
-    }
-
-    public void printMap(LinkedHashMap<String, List<Frame>> result){
-        for(Object key : result.keySet()){
-            System.out.print(key);
-            for(int k=0; k<result.get(key).size(); k++) {
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getFrameNumber());
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[0]);
-                System.out.print(" ");
-                System.out.print(result.get(key).get(k).getPinfalls()[1]);
-                System.out.print("//");
-            }
-            System.out.println(" ");
-        }
     }
 }

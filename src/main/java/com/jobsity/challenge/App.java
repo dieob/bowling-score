@@ -20,7 +20,7 @@ public class App
         try{
             FileParser parser = new FileParser();
             //Parser will get the frames for each player
-            LinkedHashMap<String, List<Frame>> gameFrames = parser.parseTextFile(args[0]);
+            LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(args[0]);
 
             //Calculate the score of each plyer in the game
                 gameFrames.forEach((player, frames)->{
