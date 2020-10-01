@@ -16,7 +16,7 @@ import java.util.*;
 
 public class FileParser {
 
-    public static LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) throws FileNotFoundException {
+    public LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) throws FileNotFoundException {
         LinkedHashMap<String, List<Frame>> result;
         List<Line> lines = parseFile(filePath);
 
@@ -29,7 +29,7 @@ public class FileParser {
         return result;
     }
 
-    public static LinkedHashMap<String, List<Frame>> handleSinglePlayer(List<Line> lines){
+    public LinkedHashMap<String, List<Frame>> handleSinglePlayer(List<Line> lines){
         int frameCount = -1;
         String score = "";
         String[] currentScore = new String[3];
@@ -39,6 +39,7 @@ public class FileParser {
 
         while(lineCount<lines.size()){
             frameCount++;
+
             currentScore = new String[3];
             score = lines.get(lineCount).getPinfalls();
 
@@ -73,7 +74,7 @@ public class FileParser {
         return result;
     }
 
-    public static LinkedHashMap<String, List<Frame>> handleMultiplePlayers(List<Line> lines) {
+    public LinkedHashMap<String, List<Frame>> handleMultiplePlayers(List<Line> lines) {
         LinkedHashMap<String, List<Frame>> result;
         List<String> players = new ArrayList<>();
         String lastPlayer = "";
@@ -106,6 +107,10 @@ public class FileParser {
                         frameCount++;
                     }
 
+                    if(frameCount>9){
+                        throw new BowlingException("Maximum amount of throws per game exceeded.");
+                    }
+
                     Frame currentFrame = new Frame(lastPlayer, currentScore, frameCount, 0);
                     frames.add(currentFrame);
 
@@ -126,7 +131,7 @@ public class FileParser {
         return result;
     }
 
-    public static int getNumberOfPlayers(List<Line> lines) throws FileNotFoundException {
+    public int getNumberOfPlayers(List<Line> lines) {
         List<String> players = new ArrayList<>();
 
         for (Line line : lines) {
@@ -140,7 +145,7 @@ public class FileParser {
         return players.size();
     }
 
-    public static LinkedHashMap<String, List<Frame>> packFrames(List<Frame> frames){
+    public LinkedHashMap<String, List<Frame>> packFrames(List<Frame> frames){
         LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
         for (Frame frame : frames) {
             List<Frame> newList;
@@ -157,7 +162,7 @@ public class FileParser {
         return result;
     }
 
-    public static List<Line> parseFile(String fileName) throws FileNotFoundException {
+    public List<Line> parseFile(String fileName) throws FileNotFoundException {
         String executionPath = System.getProperty("user.dir");
         FileInputStream fis = new FileInputStream(executionPath
                 +"/src/main/java/com/jobsity/challenge/files/"+fileName);
@@ -168,6 +173,13 @@ public class FileParser {
         while (sc.hasNextLine()) {
             Line newLine = new Line();
             values = sc.nextLine().split("\\s+");
+
+            if(!values[1].equalsIgnoreCase("F")){
+                if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
+                    throw new BowlingException("Invalid pinfalls amount. Received: " + values[1] + ". Pinfalls should be between 0 and 10.");
+                }
+            }
+
             newLine.setName(values[0]);
             newLine.setPinfalls(values[1]);
             result.add(newLine);
@@ -176,7 +188,7 @@ public class FileParser {
         return result;
     }
 
-    public static void printMap(LinkedHashMap<String, List<Frame>> result){
+    public void printMap(LinkedHashMap<String, List<Frame>> result){
         for(Object key : result.keySet()){
             System.out.print(key);
             for(int k=0; k<result.get(key).size(); k++) {
