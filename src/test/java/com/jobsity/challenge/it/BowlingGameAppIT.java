@@ -6,6 +6,7 @@ import com.jobsity.challenge.models.Frame;
 import com.jobsity.challenge.models.Parser;
 import static org.junit.Assert.assertEquals;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.FileNotFoundException;
@@ -13,12 +14,24 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 public class BowlingGameAppIT {
+    String testFilepath;
+    String noScoreFile;
+    String allFaultFile;
+    String  perfectScoreFile;
+
+    @Before
+    public void setUp() {
+        testFilepath = System.getProperty("user.dir") + "/src/test/java/com/jobsity/challenge/it/resources/";
+        noScoreFile = "no-score.txt";
+        allFaultFile = "all-fault.txt";
+        perfectScoreFile = "perfect-score.txt";
+    }
 
     @Test
-    public void noScoreIntegrationTest() throws FileNotFoundException {
-
+    public void noScoreIntegrationTest() {
         Parser parser = new Parser();
-        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("no-score.txt");
+
+        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+noScoreFile);
 
         gameFrames.forEach((player, frames)->{
             BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
@@ -34,7 +47,7 @@ public class BowlingGameAppIT {
     public void allFaultIntegrationTest() throws FileNotFoundException {
 
         Parser parser = new Parser();
-        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("all-fault.txt");
+        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+allFaultFile);
 
         gameFrames.forEach((player, frames)->{
             BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
@@ -50,7 +63,7 @@ public class BowlingGameAppIT {
     public void perfectScoreIntegrationTest() throws FileNotFoundException {
 
         Parser parser = new Parser();
-        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("perfect-score.txt");
+        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+perfectScoreFile);
 
         gameFrames.forEach((player, frames)->{
             BowlingGameInterface game =  new BowlingGameScoreBoard(frames);

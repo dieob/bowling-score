@@ -36,12 +36,10 @@ public class Parser implements FileParserInterface {
     }
 
     /** Reads the lines from the file and store them as a List **/
-    public List<Line> parseFile(String fileName) {
-        String executionPath = System.getProperty("user.dir");
+    public List<Line> parseFile(String filePath) {
         FileInputStream fis;
         try {
-             fis = new FileInputStream(executionPath
-                    + "/src/main/java/com/jobsity/challenge/files/" + fileName);
+             fis = new FileInputStream(filePath);
 
         }catch(FileNotFoundException f){
             throw new BowlingException("File not found.");
