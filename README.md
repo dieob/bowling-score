@@ -25,7 +25,6 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 - Maven's exec plugin can be used to run any of the main class generated in the target folder. Here the main class being  `com.jobsity.challenge.App` , and passing the path to the input file as a parameter:
 
 	```bash
-	#execute the project
 	mvn exec:java -Dexec.mainClass=com.jobsity.challenge.App 
 	-Dexec.args="path-to-the-input-file"
 	```
@@ -45,5 +44,5 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 - To run integration tests, use the failsafe plugin and run this command:
 
     ```bash
-       mvn failsafe:integration-test
+    mvn failsafe:integration-test
     ```
