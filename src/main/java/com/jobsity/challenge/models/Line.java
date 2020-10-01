@@ -1,5 +1,12 @@
 package com.jobsity.challenge.models;
 
+/**
+ * Class Line represents a line read from the input file.
+ *
+ * @author Diego Báez
+ *
+ */
+
 public class Line {
 
     private String name;

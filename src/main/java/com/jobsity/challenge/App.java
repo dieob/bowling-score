@@ -3,33 +3,39 @@ package com.jobsity.challenge;
 import com.jobsity.challenge.interfaces.BowlingGame;
 import com.jobsity.challenge.models.BowlingGameScoreBoard;
 import com.jobsity.challenge.models.Frame;
+import com.jobsity.challenge.utils.BowlingException;
+import com.jobsity.challenge.utils.FileParser;
 
 import java.io.FileNotFoundException;
 import java.util.LinkedHashMap;
 import java.util.List;
-import com.jobsity.challenge.utils.Utilities;
 
 /**
- * Main Class for the Bowling Score calculation
+ * Main Class for the Bowling Score Game Calculation
  *
  */
 public class App 
 {
-    public static void main( String[] args ) throws FileNotFoundException {
-        Utilities util = new Utilities();
-        LinkedHashMap<String, List<Frame>> gamePlays = util.parseTextFile(args[0]);
+    public static void main( String[] args ) {
+        try{
+            FileParser parser = new FileParser();
+            //Parser will get the frames for each player
+            LinkedHashMap<String, List<Frame>> gameFrames = parser.parseTextFile(args[0]);
 
-        while(true){
-            gamePlays.forEach((player, frames)->{
-                BowlingGame game =  new BowlingGameScoreBoard(frames);
-                for (Frame frame : frames) {
-                    frame.setScore(game.calculateScore(frame));
-                }
-            });
-            break;
+            //Calculate the score of each plyer in the game
+                gameFrames.forEach((player, frames)->{
+                    BowlingGame game =  new BowlingGameScoreBoard(frames);
+                    for (Frame frame : frames) {
+                        frame.setScore(game.calculateScore(frame));
+                    }
+                });
+
+            //Print the results board
+            BowlingGame game =  new BowlingGameScoreBoard();
+            game.printResultBoard(gameFrames);
+
+        } catch (FileNotFoundException fe){
+            new BowlingException("The file "+args[0]+ " could not be found.");
         }
-
-        BowlingGame game =  new BowlingGameScoreBoard();
-        game.printTable(gamePlays);
     }
 }

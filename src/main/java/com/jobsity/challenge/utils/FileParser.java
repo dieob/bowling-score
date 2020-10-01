@@ -1,5 +1,12 @@
 package com.jobsity.challenge.utils;
 
+/**
+ * Class Frame represents each frame on a Bowling Match.
+ *
+ * @author Diego Báez
+ *
+ */
+
 import com.jobsity.challenge.models.Frame;
 import com.jobsity.challenge.models.Line;
 
@@ -7,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class Utilities {
+public class FileParser {
 
     public static LinkedHashMap<String, List<Frame>> parseTextFile(String filePath) throws FileNotFoundException {
         LinkedHashMap<String, List<Frame>> result;
@@ -56,10 +63,7 @@ public class Utilities {
                 }
             }
 
-            Frame currentFrame = new Frame();
-            currentFrame.setPlayer(lines.get(lineCount).getName());
-            currentFrame.setPinfalls(currentScore);
-            currentFrame.setFrameNumber(frameCount);
+            Frame currentFrame = new Frame(lines.get(lineCount).getName(), currentScore, frameCount, 0);
             frames.add(currentFrame);
             lineCount++;
         }
@@ -70,8 +74,7 @@ public class Utilities {
     }
 
     public static LinkedHashMap<String, List<Frame>> handleMultiplePlayers(List<Line> lines) {
-        String[] values;
-        LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
+        LinkedHashMap<String, List<Frame>> result;
         List<String> players = new ArrayList<>();
         String lastPlayer = "";
         List<Frame> frames = new ArrayList<>();
@@ -97,19 +100,16 @@ public class Utilities {
 
                 scoreCount++;
                 if (!player.equalsIgnoreCase(lastPlayer) && !lastPlayer.equalsIgnoreCase("")) {
-                    //Save the last player play
+                    //Save the last player frame
 
                     if(lastPlayer.equalsIgnoreCase(firstPlayerName)){
                         frameCount++;
                     }
 
-                    Frame currentFrame = new Frame();
-                    currentFrame.setPlayer(lastPlayer);
-                    currentFrame.setPinfalls(currentScore);
-                    currentFrame.setFrameNumber(frameCount);
+                    Frame currentFrame = new Frame(lastPlayer, currentScore, frameCount, 0);
                     frames.add(currentFrame);
 
-                    //begin new player's play
+                    //begin new player's frame
                     scoreCount = 0;
                     currentScore = new String[3];
                 }
@@ -118,11 +118,8 @@ public class Utilities {
             }
 
             //Save last throw
-            Frame currentFrame = new Frame();
-            currentFrame.setPlayer(lastPlayer);
-            currentFrame.setPinfalls(currentScore);
-            currentFrame.setFrameNumber(frameCount);
-            frames.add(currentFrame);
+        Frame currentFrame = new Frame(lastPlayer, currentScore, frameCount, 0);
+        frames.add(currentFrame);
 
         result = packFrames(frames);
 

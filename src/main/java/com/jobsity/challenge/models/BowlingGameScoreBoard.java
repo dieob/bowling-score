@@ -1,5 +1,12 @@
 package com.jobsity.challenge.models;
 
+/**
+ * Implementation for a specific BowlingGame.
+ *
+ * @author Diego Báez
+ *
+ */
+
 import com.jobsity.challenge.interfaces.BowlingGame;
 
 import java.util.ArrayList;
@@ -51,7 +58,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 }
             } else {
                 //this means the next is not a strike so count the total
-                result = prevScore + MAX_FRAMES + frames.get(frame.getFrameNumber()+1).getTotalPinFalls();
+                result = prevScore + MAX_PINS + frames.get(frame.getFrameNumber()+1).getTotalPinFalls();
             }
             //if it is a spare
         } else if(frame.isSpare()) {
@@ -59,7 +66,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
             if(!frames.get(frame.getFrameNumber() + 1).getPinfalls()[0].equalsIgnoreCase("F")){
                 nextFramePins = Integer.parseInt(frames.get(frame.getFrameNumber() + 1).getPinfalls()[0]);
             }
-            result = prevScore + MAX_FRAMES + nextFramePins;
+            result = prevScore + MAX_PINS + nextFramePins;
         } else {
             result = prevScore + frame.getTotalPinFalls();
         }
@@ -69,7 +76,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
 
 
     @Override
-    public void printTable(LinkedHashMap<String, List<Frame>> frames) {
+    public void printResultBoard(LinkedHashMap<String, List<Frame>> frames) {
         String titleFormat = "%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n";
         System.out.printf(titleFormat, "Frame", "1","2","3","4","5","6","7","8","9","10");
 

@@ -1,6 +1,11 @@
 package com.jobsity.challenge.models;
 
-import java.util.List;
+/**
+ * Class Frame represents each frame on a Bowling Match.
+ *
+ * @author Diego Báez
+ *
+ */
 
 public class Frame {
 
@@ -15,6 +20,12 @@ public class Frame {
     private boolean isLastFrame;
     private int frameNumber;
 
+    public Frame(String player, String[] pinfalls, int frameNumber, int score){
+        this.player = player;
+        this.pinfalls = pinfalls;
+        this.frameNumber = frameNumber;
+        this.score = score;
+    }
 
     public String getPlayer() {
         return player;
@@ -48,10 +59,6 @@ public class Frame {
         }
     }
 
-    public void setStrike(boolean strike) {
-        isStrike = strike;
-    }
-
     public boolean isSpare() {
         int counter =0;
         for (int i = 0; i < pinfalls.length-1; i++) {
@@ -66,24 +73,12 @@ public class Frame {
         }
     }
 
-    public void setSpare(boolean spare) {
-        isSpare = spare;
-    }
-
     public int getFrameNumber() {
         return frameNumber;
     }
 
     public void setFrameNumber(int frameNumber) {
         this.frameNumber = frameNumber;
-    }
-
-    public boolean isLastFrame() {
-        return frameNumber==MAX_FRAMES;
-    }
-
-    public void setLastFrame(boolean lastFrame) {
-        isLastFrame = lastFrame;
     }
 
     public int getTotalPinFalls() {
@@ -104,9 +99,5 @@ public class Frame {
             }
         }
         return total;
-    }
-
-    public void setTotalPinFalls(int totalPinFalls) {
-        this.totalPinFalls = totalPinFalls;
     }
 }
