@@ -34,10 +34,16 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 - If you want to run tests, run the  `test`  goal. It will run all the tests.
 
     ```bash
-       mvn test
+    mvn test
     ```
 
 - You can also run a single test file or a particular method inside a test file as follows.
 
     ```bash
     mvn test -Dtest=com.mycompany.AppTest#testMethodName
+
+- To run integration tests, use the failsafe plugin and run this command:
+
+    ```bash
+       mvn failsafe:integration-test
+    ```
