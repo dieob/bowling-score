@@ -18,6 +18,7 @@ public class BowlingGameAppIT {
     String noScoreFile;
     String allFaultFile;
     String  perfectScoreFile;
+    String youtubeExampleFile;
 
     @Before
     public void setUp() {
@@ -25,6 +26,7 @@ public class BowlingGameAppIT {
         noScoreFile = "no-score.txt";
         allFaultFile = "all-fault.txt";
         perfectScoreFile = "perfect-score.txt";
+        youtubeExampleFile = "youtube-example.txt";
     }
 
     @Test
@@ -44,7 +46,7 @@ public class BowlingGameAppIT {
     }
 
     @Test
-    public void allFaultIntegrationTest() throws FileNotFoundException {
+    public void allFaultIntegrationTest() {
 
         Parser parser = new Parser();
         LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+allFaultFile);
@@ -60,7 +62,7 @@ public class BowlingGameAppIT {
     }
 
     @Test
-    public void perfectScoreIntegrationTest() throws FileNotFoundException {
+    public void perfectScoreIntegrationTest() {
 
         Parser parser = new Parser();
         LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+perfectScoreFile);
@@ -71,6 +73,21 @@ public class BowlingGameAppIT {
                 frame.setScore(game.calculateScore(frame));
             }
             assertEquals(300, frames.get(frames.size()-1).getScore());
+        });
+    }
+
+    @Test
+    public void regularGameIntegrationTest() {
+
+        Parser parser = new Parser();
+        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+youtubeExampleFile);
+
+        gameFrames.forEach((player, frames)->{
+            BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
+            for (Frame frame : frames) {
+                frame.setScore(game.calculateScore(frame));
+            }
+            assertEquals(170, frames.get(frames.size()-1).getScore());
         });
     }
 }
