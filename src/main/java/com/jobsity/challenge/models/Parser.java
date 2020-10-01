@@ -1,4 +1,4 @@
-package com.jobsity.challenge.utils;
+package com.jobsity.challenge.models;
 
 /**
  * Class Frame represents each frame on a Bowling Match.
@@ -7,9 +7,8 @@ package com.jobsity.challenge.utils;
  *
  */
 
-import com.jobsity.challenge.interfaces.FileParser;
-import com.jobsity.challenge.models.Frame;
-import com.jobsity.challenge.models.Line;
+import com.jobsity.challenge.interfaces.FileParserInterface;
+import com.jobsity.challenge.utils.BowlingException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -19,7 +18,7 @@ import java.util.*;
  * This class is used to parse the file given as input
  *
  **/
-public class Parser implements FileParser {
+public class Parser implements FileParserInterface {
 
     /** Method to handle the file **/
     @Override

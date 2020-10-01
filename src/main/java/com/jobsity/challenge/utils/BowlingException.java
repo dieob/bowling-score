@@ -7,8 +7,13 @@ package com.jobsity.challenge.utils;
  */
 public class BowlingException extends RuntimeException {
 
+    String message;
     public BowlingException(String message) {
-        System.out.println(message);
+        this.message = message;
     }
 
+    @Override
+    public String getMessage() {
+        return message;
+    }
 }

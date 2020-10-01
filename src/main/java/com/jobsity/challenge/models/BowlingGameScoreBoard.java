@@ -7,20 +7,19 @@ package com.jobsity.challenge.models;
  *
  */
 
-import com.jobsity.challenge.interfaces.BowlingGame;
+import com.jobsity.challenge.interfaces.BowlingGameInterface;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-public final class BowlingGameScoreBoard implements BowlingGame {
+public final class BowlingGameScoreBoard implements BowlingGameInterface {
 
 
     private List<Frame> frames = new ArrayList<>();
     private static final int MAX_FRAMES = 10;
     private static final int MAX_PINS = 10;
 
-    /*set up the game*/
     public BowlingGameScoreBoard() {
     }
 
@@ -93,10 +92,10 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 String tenthFrame = "%5s";
 
                 if(frame.isStrike()){
-                    if(frame.getFrameNumber()==9){
+                    if(frame.getFrameNumber()==MAX_FRAMES-1){
                         scores[0] = "X";
-                        scores[1] = frame.getPinfalls()[1].equalsIgnoreCase("10") ? "X" : String.valueOf(frame.getPinfalls()[1]);
-                        scores[2] = frame.getPinfalls()[2].equalsIgnoreCase("10") ? "X" : String.valueOf(frame.getPinfalls()[2]);
+                        scores[1] = frame.getPinfalls()[1].equalsIgnoreCase(String.valueOf(MAX_PINS)) ? "X" : String.valueOf(frame.getPinfalls()[1]);
+                        scores[2] = frame.getPinfalls()[2].equalsIgnoreCase(String.valueOf(MAX_PINS)) ? "X" : String.valueOf(frame.getPinfalls()[2]);
                     } else {
                         scores[0] = " ";
                         scores[1] = "X";
@@ -113,8 +112,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 }
 
                 System.out.printf(frame.getFrameNumber()==0? pinfallsFormat1st : pinfallsFormat,
-                        scores[0].equalsIgnoreCase("-1") ? "F" : scores[0],
-                        scores[1].equalsIgnoreCase("-1") ? "F" : scores[1]);
+                        scores[0], scores[1]);
                 if(frame.getFrameNumber()==9){
                     if(!scores[2].equalsIgnoreCase("null")){
                         System.out.printf(tenthFrame, scores[2]);
@@ -129,7 +127,7 @@ public final class BowlingGameScoreBoard implements BowlingGame {
                 String scoreFormat1st = "%7s";
                 String scoreFormat = "%10s";
                 String tenthFormat = "%10s%n";
-                if(frame.getFrameNumber() == 9){
+                if(frame.getFrameNumber() == MAX_FRAMES-1){
                     System.out.printf(tenthFormat, frame.getScore());
                 } else{
                     System.out.printf(frame.getFrameNumber()==0? scoreFormat1st : scoreFormat, frame.getScore());

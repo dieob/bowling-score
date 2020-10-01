@@ -1,9 +1,9 @@
 package com.jobsity.challenge.it;
 
-import com.jobsity.challenge.interfaces.BowlingGame;
+import com.jobsity.challenge.interfaces.BowlingGameInterface;
 import com.jobsity.challenge.models.BowlingGameScoreBoard;
 import com.jobsity.challenge.models.Frame;
-import com.jobsity.challenge.utils.FileParser;
+import com.jobsity.challenge.models.Parser;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
@@ -17,11 +17,11 @@ public class BowlingGameAppIT {
     @Test
     public void noScoreIntegrationTest() throws FileNotFoundException {
 
-        FileParser parser = new FileParser();
+        Parser parser = new Parser();
         LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("no-score.txt");
 
         gameFrames.forEach((player, frames)->{
-            BowlingGame game =  new BowlingGameScoreBoard(frames);
+            BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
             for (Frame frame : frames) {
                 frame.setScore(game.calculateScore(frame));
 
@@ -33,11 +33,11 @@ public class BowlingGameAppIT {
     @Test
     public void allFaultIntegrationTest() throws FileNotFoundException {
 
-        FileParser parser = new FileParser();
+        Parser parser = new Parser();
         LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("all-fault.txt");
 
         gameFrames.forEach((player, frames)->{
-            BowlingGame game =  new BowlingGameScoreBoard(frames);
+            BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
             for (Frame frame : frames) {
                 frame.setScore(game.calculateScore(frame));
 
@@ -49,11 +49,11 @@ public class BowlingGameAppIT {
     @Test
     public void perfectScoreIntegrationTest() throws FileNotFoundException {
 
-        FileParser parser = new FileParser();
+        Parser parser = new Parser();
         LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile("perfect-score.txt");
 
         gameFrames.forEach((player, frames)->{
-            BowlingGame game =  new BowlingGameScoreBoard(frames);
+            BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
             for (Frame frame : frames) {
                 frame.setScore(game.calculateScore(frame));
             }
