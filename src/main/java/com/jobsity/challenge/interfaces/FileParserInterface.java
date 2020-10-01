@@ -13,7 +13,7 @@ import java.util.List;
  *
  */
 
-public interface FileParser {
+public interface FileParserInterface {
     // Must implement a method to handle the file according to its needs
     LinkedHashMap<String, List<Frame>> handleFile(String fileName);
 }
