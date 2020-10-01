@@ -7,6 +7,7 @@ package com.jobsity.challenge.utils;
  *
  */
 
+import com.jobsity.challenge.interfaces.FileParser;
 import com.jobsity.challenge.models.Frame;
 import com.jobsity.challenge.models.Line;
 
@@ -18,10 +19,11 @@ import java.util.*;
  * This class is used to parse the file given as input
  *
  **/
-public class FileParser {
+public class Parser implements FileParser {
 
     /** Method to handle the file **/
-    public LinkedHashMap<String, List<Frame>> handleFile(String filePath) throws FileNotFoundException {
+    @Override
+    public LinkedHashMap<String, List<Frame>> handleFile(String filePath) {
         LinkedHashMap<String, List<Frame>> result;
         List<Line> lines = parseFile(filePath);
 
@@ -35,10 +37,17 @@ public class FileParser {
     }
 
     /** Reads the lines from the file and store them as a List **/
-    public List<Line> parseFile(String fileName) throws FileNotFoundException {
+    public List<Line> parseFile(String fileName) {
         String executionPath = System.getProperty("user.dir");
-        FileInputStream fis = new FileInputStream(executionPath
-                +"/src/main/java/com/jobsity/challenge/files/"+fileName);
+        FileInputStream fis;
+        try {
+             fis = new FileInputStream(executionPath
+                    + "/src/main/java/com/jobsity/challenge/files/" + fileName);
+
+        }catch(FileNotFoundException f){
+            throw new BowlingException("File not found.");
+        }
+
         Scanner sc = new Scanner(fis);    //file to be scanned
         String[] values;
         List<Line> result = new ArrayList<>();
@@ -47,8 +56,14 @@ public class FileParser {
             Line newLine = new Line();
             values = sc.nextLine().split("\\s+");
 
+            if(values.length != 2){
+                sc.close();
+                throw new BowlingException("Invalid file format.");
+            }
+
             if(!values[1].equalsIgnoreCase("F")){
                 if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
+                    sc.close();
                     throw new BowlingException("Invalid pinfalls amount. Received: " + values[1] + ". Pinfalls should be between 0 and 10.");
                 }
             }
@@ -65,9 +80,9 @@ public class FileParser {
     public LinkedHashMap<String, List<Frame>> handleSinglePlayer(List<Line> lines){
         int frameCount = -1;
         String score = "";
-        String[] currentScore = new String[3];
+        String[] currentScore;
         List<Frame> frames = new ArrayList<>();
-        LinkedHashMap<String, List<Frame>> result = new LinkedHashMap<>();
+        LinkedHashMap<String, List<Frame>> result;
         int lineCount = 0;
 
         while(lineCount<lines.size()){
@@ -87,6 +102,10 @@ public class FileParser {
                 currentScore[0]=score;
 
                 currentScore[1]=lines.get(lineCount+1).getPinfalls();
+                if(frameCount>9){
+                    throw new BowlingException("Max amount of frames exceeded.");
+                }
+
                 if(frameCount==9){
                     if(lines.size()-lineCount==3){
                         currentScore[2]=lines.get(lineCount+2).getPinfalls();
@@ -141,10 +160,6 @@ public class FileParser {
                         frameCount++;
                     }
 
-                    if(frameCount>9){
-                        throw new BowlingException("Max amount of throws per game exceeded.");
-                    }
-
                     Frame currentFrame = new Frame(lastPlayer, currentScore, frameCount, 0);
                     frames.add(currentFrame);
 
@@ -195,6 +210,14 @@ public class FileParser {
             newList.add(frame);
             result.put(frame.getPlayer(), newList);
         }
+
+        //Validate that only correct amount of frames are in the file
+        result.forEach((player, playerFrames)->{
+            if(playerFrames.size()>10){
+                throw new BowlingException("Max amount of frames exceeded.");
+            }
+        });
+
         return result;
     }
 }
