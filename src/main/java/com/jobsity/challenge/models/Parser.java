@@ -52,25 +52,31 @@ public class Parser implements FileParserInterface {
         while (sc.hasNextLine()) {
             Line newLine = new Line();
             values = sc.nextLine().split("\\s+");
-
-            if(values.length != 2){
-                sc.close();
-                throw new BowlingException("Invalid file format.");
-            }
-
-            if(!values[1].equalsIgnoreCase("F")){
-                if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
-                    sc.close();
-                    throw new BowlingException("Invalid pinfalls amount.");
-                }
-            }
-
+            validate(values);
             newLine.setName(values[0]);
             newLine.setPinfalls(values[1]);
             result.add(newLine);
         }
         sc.close();
         return result;
+    }
+
+    private void validate(String[] values){
+        if(values.length != 2){
+            throw new BowlingException("Invalid file format.");
+        }
+        //validation
+        if(!values[1].equalsIgnoreCase("F")){
+            try{
+                Integer.parseInt(values[1]);
+            } catch(NumberFormatException n){
+                throw new BowlingException("Invalid file format.");
+            }
+
+            if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
+                throw new BowlingException("Invalid pinfalls amount.");
+            }
+        }
     }
 
     /** Creates the structure containing the frames for a game with only one player **/
