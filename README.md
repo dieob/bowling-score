@@ -30,7 +30,7 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 	```
 ### Running Unit Tests
 
-- If you want to run tests, run the  `test`  goal. It will run all the tests.
+- Run the  `test`  goal. It will run all the unit tests.
 
     ```bash
     mvn test
@@ -41,8 +41,23 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
     ```bash
     mvn test -Dtest=com.mycompany.AppTest#testMethodName
 
+### Running Integration Tests
 - To run integration tests, use the failsafe plugin and run this command:
 
     ```bash
     mvn failsafe:integration-test
     ```
+  
+  
+### Included Files
+
+In the directory `bowling-score/src/main/java/jobsity/challenge/files` you can find test
+files already created and they are:
+
+- `jobsity-example.txt`: A file describing the example given in the instructions for the test.
+- `youtube-example.txt`: A file describing the scenario on the youtube video given in the instructions for the test.
+- `all-foul.txt`: A file describing a scenario where all the throws are fouls `F`.
+- `no-score.txt`: A file describing a scenario where all throws are zero.
+- `perfect-score.txt`: A file describing a perfect match, where all throws are Strikes.
+
+To test the application using this files, run the program as previously explained, and pass the path to any of these files as a parameter.
