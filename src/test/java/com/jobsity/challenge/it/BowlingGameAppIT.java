@@ -15,7 +15,7 @@ import java.util.List;
 public class BowlingGameAppIT {
     String testFilepath;
     String noScoreFile;
-    String allFaultFile;
+    String allFoulFile;
     String  perfectScoreFile;
     String youtubeExampleFile;
 
@@ -23,7 +23,7 @@ public class BowlingGameAppIT {
     public void setUp() {
         testFilepath = System.getProperty("user.dir") + "/src/test/java/com/jobsity/challenge/it/resources/";
         noScoreFile = "no-score.txt";
-        allFaultFile = "all-fault.txt";
+        allFoulFile = "all-foul.txt";
         perfectScoreFile = "perfect-score.txt";
         youtubeExampleFile = "youtube-example.txt";
     }
@@ -48,7 +48,7 @@ public class BowlingGameAppIT {
     public void allFaultIntegrationTest() {
 
         Parser parser = new Parser();
-        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+allFaultFile);
+        LinkedHashMap<String, List<Frame>> gameFrames = parser.handleFile(testFilepath+allFoulFile);
 
         gameFrames.forEach((player, frames)->{
             BowlingGameInterface game =  new BowlingGameScoreBoard(frames);
