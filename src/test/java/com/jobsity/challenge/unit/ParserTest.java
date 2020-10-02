@@ -22,6 +22,7 @@ public class ParserTest {
     String exceedFramesFile;
     String negativePinfallsFile;
     String moreThan10PinfallsFile;
+    String emptyFile;
 
     @Before
     public void setUp() {
@@ -31,6 +32,7 @@ public class ParserTest {
         exceedFramesFile = "exceed-frames.txt";
         negativePinfallsFile = "negative-pinfalls.txt";
         moreThan10PinfallsFile = "more-10.txt";
+        emptyFile = "empty-file.txt";
     }
 
     @Test
@@ -40,6 +42,19 @@ public class ParserTest {
         try {
             LinkedHashMap<String, List<Frame>> gameFrames =
                     parser.handleFile(testFilepath + badFormatFile);
+        } catch(BowlingException be){
+            assertEquals("Invalid file format.", be.getMessage());
+        }
+
+    }
+
+    @Test
+    public void emptyFileTest(){
+        Parser parser = new Parser();
+
+        try {
+            LinkedHashMap<String, List<Frame>> gameFrames =
+                    parser.handleFile(testFilepath + emptyFile);
         } catch(BowlingException be){
             assertEquals("Invalid file format.", be.getMessage());
         }
