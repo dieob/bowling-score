@@ -9,6 +9,7 @@ package com.jobsity.challenge.models;
 
 import com.jobsity.challenge.interfaces.BowlingGameInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -79,7 +80,12 @@ public final class BowlingGameScoreBoard implements BowlingGameInterface {
     /** Prints the result table in the required format **/
     @Override
     public void printResultBoard(LinkedHashMap<String, List<Frame>> frames) {
+
+        clearConsole();
+
         String titleFormat = "%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%-10s%n";
+        System.out.println("------------------------------------------------RESULTS:------------------------------------------------");
+        System.out.println();
         System.out.printf(titleFormat, "Frame", "1","2","3","4","5","6","7","8","9","10");
 
         frames.forEach((name, scoreList)->{
@@ -134,5 +140,14 @@ public final class BowlingGameScoreBoard implements BowlingGameInterface {
                 }
             });
         });
+
+        clearConsole();
+    }
+
+    private void clearConsole(){
+        for(int i = 0; i < 5; i++)
+        {
+            System.out.println("\b");
+        }
     }
 }
