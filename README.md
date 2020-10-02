@@ -22,11 +22,10 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 
 ### Execute the project
 
-- Maven's exec plugin can be used to run any of the main class generated in the target folder. Here the main class being  `com.jobsity.challenge.App` , and passing the path to the input file as a parameter:
+- Maven's exec plugin can be used to run any of the main class generated in the target folder. Here the main class being  `com.jobsity.challenge.App` , and passing the absolute path to the input file as a parameter:
 
 	```bash
-	mvn exec:java -Dexec.mainClass=com.jobsity.challenge.App 
-	-Dexec.args="path-to-the-input-file"
+	mvn exec:java -Dexec.mainClass=com.jobsity.challenge.App -Dexec.args="path-to-the-input-file"
 	```
 ### Running Unit Tests
 
@@ -60,4 +59,12 @@ files already created and they are:
 - `no-score.txt`: A file describing a scenario where all throws are zero.
 - `perfect-score.txt`: A file describing a perfect match, where all throws are Strikes.
 
-To test the application using this files, run the program as previously explained, and pass the path to any of these files as a parameter.
+To test the application using these files, run the program as previously explained, and pass the path to any of these files as a parameter.
+
+- For example using one of these files pass this parameter:
+
+    `{your-project-directory}/bowling-score/src/main/java/com/jobsity/challenge/files/jobsity-example.txt` 
+
+- Using a file that you created pass this parameter:
+
+    `/Users/user/Desktop/custom-file.txt`
