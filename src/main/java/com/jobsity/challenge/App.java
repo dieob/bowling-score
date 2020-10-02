@@ -4,7 +4,7 @@ import com.jobsity.challenge.interfaces.BowlingGameInterface;
 import com.jobsity.challenge.interfaces.FileParserInterface;
 import com.jobsity.challenge.models.BowlingGameScoreBoard;
 import com.jobsity.challenge.models.Frame;
-import com.jobsity.challenge.utils.BowlingException;
+import com.jobsity.challenge.exceptions.BowlingException;
 import com.jobsity.challenge.models.Parser;
 
 import java.util.LinkedHashMap;

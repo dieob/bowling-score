@@ -1,4 +1,4 @@
-package com.jobsity.challenge.utils;
+package com.jobsity.challenge.exceptions;
 
 /**
  * Represents an exception for the bowling game

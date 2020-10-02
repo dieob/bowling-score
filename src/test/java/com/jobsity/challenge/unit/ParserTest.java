@@ -3,7 +3,7 @@ package com.jobsity.challenge.unit;
 
 import com.jobsity.challenge.models.Frame;
 import com.jobsity.challenge.models.Parser;
-import com.jobsity.challenge.utils.BowlingException;
+import com.jobsity.challenge.exceptions.BowlingException;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;

@@ -8,7 +8,7 @@ package com.jobsity.challenge.models;
  */
 
 import com.jobsity.challenge.interfaces.FileParserInterface;
-import com.jobsity.challenge.utils.BowlingException;
+import com.jobsity.challenge.exceptions.BowlingException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
