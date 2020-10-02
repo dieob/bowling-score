@@ -61,7 +61,7 @@ public class Parser implements FileParserInterface {
             if(!values[1].equalsIgnoreCase("F")){
                 if(Integer.parseInt(values[1]) < 0 || Integer.parseInt(values[1])>10){
                     sc.close();
-                    throw new BowlingException("Invalid pinfalls amount. Received: " + values[1] + ". Pinfalls should be between 0 and 10.");
+                    throw new BowlingException("Invalid pinfalls amount.");
                 }
             }
 
