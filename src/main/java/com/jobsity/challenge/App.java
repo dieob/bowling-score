@@ -2,7 +2,9 @@ package com.jobsity.challenge;
 
 import com.jobsity.challenge.interfaces.BowlingGameInterface;
 import com.jobsity.challenge.interfaces.FileParserInterface;
+import com.jobsity.challenge.interfaces.ResultPrinterInterface;
 import com.jobsity.challenge.models.BowlingGameScoreBoard;
+import com.jobsity.challenge.models.BowlingResultPrinter;
 import com.jobsity.challenge.models.Frame;
 import com.jobsity.challenge.exceptions.BowlingException;
 import com.jobsity.challenge.models.Parser;
@@ -34,7 +36,8 @@ public class App
 
             //Print the results board
             BowlingGameInterface game = new BowlingGameScoreBoard();
-            game.printResultBoard(gameFrames);
+            ResultPrinterInterface printer = new BowlingResultPrinter();
+            printer.printResultBoard(gameFrames);
         } catch (BowlingException be){
             System.out.println(be.getMessage());
         }
