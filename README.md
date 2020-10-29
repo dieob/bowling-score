@@ -38,7 +38,7 @@ The building process assumes that you have [Maven](https://maven.apache.org/) an
 - You can also run a single test file or a particular method inside a test file as follows.
 
     ```bash
-    mvn test -Dtest=com.mycompany.AppTest#testMethodName
+    mvn test -Dtest=com.jobsity.challenge.unit.BowlingGameScoreBoardTest#testMethodName
 
 ### Running Integration Tests
 - To run integration tests, use the failsafe plugin and run this command:
@@ -63,7 +63,7 @@ To test the application using these files, run the program as previously explain
 
 - For example using one of these files pass this parameter:
 
-    `{your-project-directory}/bowling-score/src/main/java/com/jobsity/challenge/files/jobsity-example.txt` 
+    `{your-project-directory}/src/main/java/com/jobsity/challenge/files/jobsity-example.txt` 
 
 - Using a file that you created pass this parameter:
 
