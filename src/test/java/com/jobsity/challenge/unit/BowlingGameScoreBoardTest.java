@@ -42,6 +42,55 @@ public class BowlingGameScoreBoardTest {
     }
 
     @Test
+    public void gutterFrame(){
+
+        List<Frame> frames = new ArrayList();
+        String[] pinfalls = new String[3];
+        pinfalls[0] = "0";
+        pinfalls[1] = "0";
+
+        frames.add(new Frame("TestPlayer", pinfalls, 0, 0));
+
+        String[] pinfalls2 = new String[3];
+        pinfalls2[0] = "0";
+        pinfalls2[1] = "0";
+
+        frames.add(new Frame("TestPlayer", pinfalls2, 1, INITIAL_SCORE));
+
+        BowlingGameScoreBoard game = new BowlingGameScoreBoard(frames);
+
+        int score = game.calculateScore(frames.get(0));
+
+        assertEquals(0, score);
+    }
+
+    @Test
+    public void noStrikeNoSpareLastFrame(){
+
+            List<Frame> frames = Stream.generate(()-> new Frame("TestPlayer", new String[3], 0, INITIAL_SCORE))
+                    .limit(10)
+                    .collect(Collectors.toList());
+
+            String[] pinfalls2 = new String[3];
+            pinfalls2[0] = "8";
+            pinfalls2[1] = "1";
+
+            frames.set(8, new Frame("TestPlayer", pinfalls2, 8, 9));
+
+            String[] pinfalls3 = new String[3];
+            pinfalls3[0] = "5";
+            pinfalls3[1] = "1";
+
+            frames.set(9, new Frame("TestPlayer", pinfalls3, 9, INITIAL_SCORE));
+
+            BowlingGameScoreBoard game = new BowlingGameScoreBoard(frames);
+
+            int score = game.calculateScore(frames.get(9));
+
+            assertEquals(15, score);
+    }
+
+    @Test
     public void spareOnFirstFrame(){
 
         List<Frame> frames = new ArrayList();
@@ -195,5 +244,40 @@ public class BowlingGameScoreBoardTest {
         int score = game.calculateScore(frames.get(9));
 
         assertEquals(23, score);
+    }
+
+
+    /*This test is emulating the situation in the explanatory youtube video provided
+    by Jobsity, where there is two consecutive strikes on frames 6 and 7*/
+    @Test
+    public void twoConsecutiveStrikes(){
+
+        List<Frame> frames = Stream.generate(()-> new Frame("TestPlayer", new String[3], 0, INITIAL_SCORE))
+                .limit(10)
+                .collect(Collectors.toList());
+
+        String[] pinfalls3 = new String[3];
+        pinfalls3[0] = "10";
+        pinfalls3[1] = "0";
+
+        frames.set(6, new Frame("TestPlayer", pinfalls3, 6, 105));
+
+        String[] pinfalls4 = new String[3];
+        pinfalls4[0] = "10";
+        pinfalls4[1] = "0";
+
+        frames.set(7, new Frame("TestPlayer", pinfalls4, 7, 123));
+
+        String[] pinfalls5 = new String[3];
+        pinfalls5[0] = "8";
+        pinfalls5[1] = "0";
+
+        frames.set(8, new Frame("TestPlayer", pinfalls5, 8, INITIAL_SCORE));
+
+        BowlingGameScoreBoard game = new BowlingGameScoreBoard(frames);
+
+        int score = game.calculateScore(frames.get(8));
+
+        assertEquals(131, score);
     }
 }
