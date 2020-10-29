@@ -42,6 +42,8 @@ public final class BowlingGameScoreBoard implements BowlingGameInterface {
         if(frame.getFrameNumber() == MAX_FRAMES-1){
             if(frame.isStrike() || frame.isSpare()){
                 result = prevScore + frame.getTotalPinfallsForLastFrame();
+            } else {
+                result = prevScore + frame.getTotalPinFalls();
             }
         } else if(frame.isStrike()){
             //if they are 2 strikes in a row
